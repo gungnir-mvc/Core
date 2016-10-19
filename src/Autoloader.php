@@ -51,7 +51,7 @@ class Autoloader
         $path = empty($path) ? $this->getPsr4Path($class) : $path;
 
         if (empty($path)) {
-            throw new AutoloaderException('Class ' . $class . ' could not be loaded!');
+            return false;
         }
 
         require $path;
@@ -165,5 +165,3 @@ class Autoloader
             }
     }
 }
-
-class AutoloaderException extends \Exception {}
