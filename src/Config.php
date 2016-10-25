@@ -1,8 +1,6 @@
 <?php
 namespace Gungnir\Core;
 
-use \Gungnir\Core\Core as Gungnir;
-
 /**
  * @package gungnir-mvc\core
  * @author Conny Karlsson <connykarlsson9@gmail.com>

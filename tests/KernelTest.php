@@ -22,4 +22,27 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         $content = $kernel->loadFile($kernel->getApplicationPath() . 'foo.tmp');
         $this->assertSame('bar', $content);
     }
+
+    public function testItCanSetCustomApplicationFolder()
+    {
+        $kernel = new Kernel;
+        $this->assertEquals('application/', $kernel->getApplicationFolder());
+
+        $kernel->setApplicationFolder('custom_applicationfolder/');
+
+        $this->assertEquals('custom_applicationfolder/', $kernel->getApplicationFolder());
+    }
+
+    public function testItUsesROOTConstantIfNoRootHaveBeenSet()
+    {
+        define('ROOT', 'somePath');
+        $kernel = new Kernel;
+        $this->assertEquals('somePath', $kernel->getRoot());
+    }
+
+    public function testItGetsDefaultEnvironmentSet()
+    {
+        $kernel = new Kernel;
+        $this->assertEquals(Kernel::ENVIRONMENT_DEVELOPMENT, $kernel->getEnvironment());
+    }
 }

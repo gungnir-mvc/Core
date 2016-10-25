@@ -61,7 +61,7 @@ class Container
             return $this->container[$name];
         }
 
-        throw new \Exception($name . " have not been registered in container.");
+        return null;
     }
 
     /**

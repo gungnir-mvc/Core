@@ -51,10 +51,32 @@ class AutoloaderTest extends \PHPUnit_Framework_TestCase
         $autoloader->classLoader('\Gungnir\Core\Config');
     }
 
+    public function testItCanSetCustomApplicationFolder()
+    {
+        $root = $this->root->url();
+        $autoloader = new Autoloader($root);
+        $autoloader->setApplicationFolder('CustomApplicationFolder');
+    }
+
     public function testPsr4PrefixesCanBeAddedAndLoaded()
     {
         $autoloader = new Autoloader($this->root->url());
         $autoloader->psr4Prefix('Gungnir\OtherNamespace', $this->root->url() . '/vendor/classes/OtherNamespace');
-        $autoloader->classLoader('\Gungnir\OtherNamespace\Config');
+        $this->assertNull($autoloader->classLoader('\Gungnir\OtherNamespace\Config'));
+        $this->assertFalse($autoloader->classLoader('\Gungnir\OtherNamespace\OtherClass'));
+    }
+
+    public function testPsr0PrefixesCanBeAddedAndLoaded()
+    {
+        $autoloader = new Autoloader($this->root->url());
+    }
+
+    public function testItCanReturnRegisteredPrefixes()
+    {
+        $autoloader = new Autoloader($this->root->url());
+        $autoloader->psr4Prefix('Gungnir\OtherNamespace', $this->root->url() . '/vendor/classes/OtherNamespace');
+
+        $this->assertEquals(1, count($autoloader->prefixes()));
+        $this->assertEquals(1, count($autoloader->prefixes('psr4')));
     }
 }

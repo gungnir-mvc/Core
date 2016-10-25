@@ -34,4 +34,18 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($closure('buzz'), $result);
     }
+
+    public function testItReturnsNullWhenNotRegisteredInContainer()
+    {
+        $container = new Container;
+        $this->assertNull($container->get('foo'));
+    }
+
+    public function testThatGlobalContainerCanBeRegistered()
+    {
+        $container = new Container;
+        Container::instance($container);
+
+        $this->assertEquals($container, Container::instance());
+    }
 }
