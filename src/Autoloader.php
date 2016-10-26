@@ -19,9 +19,6 @@ class Autoloader
     /** @var string Path to application folder relative to root directory */
     private $applicationFolder = 'application/';
 
-    /** @var string Path to system folder relative to root directory */
-    private $systemFolder = 'system/';
-
     /** @var array $psr4 Container array for PSR-4 prefixes */
     private $psr4 = [];
 
@@ -45,7 +42,8 @@ class Autoloader
      * @param  String $class String representation of class that should get loaded
      * @return void
      */
-    public function classLoader(String $class) {
+    public function classLoader(String $class) 
+    {
 
         $path = $this->getApplicationPath($class);
         $path = empty($path) ? $this->getPsr4Path($class) : $path;
@@ -67,7 +65,6 @@ class Autoloader
     public function getPsr4Path(String $class)
     {
         $path = strtr($class, '\\', "/") . '.php';
-        $psr4Path = false;
 
         foreach ($this->psr4 as $prefix => $src) {
             if (strpos($class, $prefix) !== false) {
@@ -75,13 +72,11 @@ class Autoloader
                 $classPath = str_replace($prefix, '', $path);
                 $psr4Path = $src . ltrim($classPath, '/');
                 if (file_exists($psr4Path)) {
-                 break;
-                } else {
-                    $psr4Path = false;
+                    return $psr4Path;
                 }
             }
         }
-        return $psr4Path;
+        return false;
     }
 
     /**
