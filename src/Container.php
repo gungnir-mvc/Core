@@ -20,6 +20,7 @@ class Container
      * if an instance of Container is passed
      *
      * @param Container $instance If passed it replaces the global instance
+     * 
      * @return Container|Null
      */
     public static function instance(Container $instance = null)
@@ -31,6 +32,7 @@ class Container
      * Set the current global instance of Container
      *
      * @param Container $instance The instance to set as global
+     * 
      * @return void
      */
     public static function setInstance(Container $instance)
@@ -52,7 +54,7 @@ class Container
      * Tries to get an item from container by name
      *
      * @param  String $name Name of item to retrieve
-     * @throws \Exception
+     * 
      * @return Mixed
      */
     public function get(String $name)
@@ -68,6 +70,7 @@ class Container
      * Checks if name is registered in container
      *
      * @param  String  $name Name to check for in container
+     * 
      * @return boolean
      */
     public function has(String $name)
@@ -80,6 +83,7 @@ class Container
      *
      * @param  String $name       Name of closure;
      * @param  array  $parameters Array with parameters to pass into closure
+     * 
      * @return Mixed
      */
     public function make(String $name, array $parameters = array())
@@ -94,6 +98,7 @@ class Container
      *
      * @param  String $name Name to store item under
      * @param  Mixed  $item Anyting that should be stored
+     * 
      * @return Container
      */
     public function store(String $name, $item) : Container
@@ -107,6 +112,7 @@ class Container
      *
      * @param  String  $name    Name to store closure under
      * @param  Closure $closure Closure to register
+     * 
      * @return Container
      */
     public function register(String $name, Closure $closure) : Container
@@ -119,6 +125,7 @@ class Container
      * Removes item from container by name
      *
      * @param  String $name Name of item to remove
+     * 
      * @return Container
      */
     public function remove(String $name) : Container

@@ -39,8 +39,9 @@ class Autoloader
      * This method should be registered with
      * spl_autoload_register
      *
-     * @param  String $class String representation of class that should get loaded
-     * @return void
+     * @param  string $class String representation of class that should get loaded
+     * 
+     * @return null|bool
      */
     public function classLoader(String $class) 
     {
@@ -60,17 +61,18 @@ class Autoloader
      * and returns path to class if found.
      *
      * @param  String $class String representation of class that should be found
+     * 
      * @return Bool|String     String $path if found or Bool false if not
      */
     public function getPsr4Path(String $class)
     {
-        $path = strtr($class, '\\', "/") . '.php';
+        $path = strtr($class, '\\', '/') . '.php';
 
         foreach ($this->psr4 as $prefix => $src) {
             if (strpos($class, $prefix) !== false) {
-                $prefix = strtr($prefix, '\\', '/');
+                $prefix    = strtr($prefix, '\\', '/');
                 $classPath = str_replace($prefix, '', $path);
-                $psr4Path = $src . ltrim($classPath, '/');
+                $psr4Path  = $src . ltrim($classPath, '/');
                 if (file_exists($psr4Path)) {
                     return $psr4Path;
                 }
@@ -107,12 +109,20 @@ class Autoloader
      * and returns path to class if found.
      *
      * @param  String $class String representation of class that should be found
+     * 
      * @return Bool|String     String $path if found or Bool false if not
      */
     public function getApplicationPath(String $class)
     {
-        $applicationPath = $this->root . '/' . $this->getApplicationFolder() . 'classes/' . strtr($class, '\\', "/") . '.php';
-        return file_exists($applicationPath) ? $applicationPath : false;
+        $applicationPath  = $this->root . '/';
+        $applicationPath .= $this->getApplicationFolder() . 'classes/';
+        $applicationPath .= strtr($class, '\\', '/') . '.php';
+
+        if (file_exists($applicationPath)) {
+            return $applicationPath;
+        }
+
+        return false;
     }
 
     /**
@@ -120,6 +130,7 @@ class Autoloader
      *
      * @param  String $prefix Prefix
      * @param  String $src    Path
+     * 
      * @return void
      */
     public function psr4Prefix(String $prefix, String $src)
@@ -132,6 +143,7 @@ class Autoloader
      *
      * @param  String $prefix Prefix
      * @param  String $src    Path
+     * 
      * @return void
      */
     public function psr0Prefix(String $prefix, String $src)
@@ -143,20 +155,18 @@ class Autoloader
      * Returns all registered prefixes
      *
      * @param  String|null $preference Pass psr0 or psr4 for only getting either of the sets
+     * 
      * @return array The prefixes
      */
     public function prefixes(String $preference = null)
     {
-            switch ($preference) {
-                case 'psr4':
-                    return $this->psr4;
-                    break;
-                case 'psr0':
-                    return $this->psr0;
-                    break;
-                default:
-                    return array_merge($this->psr4, $this->psr0);
-                    break;
-            }
+        switch ($preference) {
+            case 'psr4':
+                return $this->psr4;
+            case 'psr0':
+                return $this->psr0;
+            default:
+                return array_merge($this->psr4, $this->psr0);
+        }
     }
 }
