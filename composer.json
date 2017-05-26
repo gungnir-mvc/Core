@@ -1,17 +1,15 @@
 {
-    "name": "gungnir-mvc/log",
-    "description": "Log library for gungnir-mvc",
+    "name": "gungnir-mvc/core",
+    "description": "Core library for gungnir-mvc",
     "type": "library",
-    "require": {
-        "psr/log": "^1.0"
-    },
+    "require": {},
         "require-dev": {
                 "phpunit/phpunit": "5.5.*",
                 "phpspec/prophecy": "~1.0",
                 "mikey179/vfsStream": "~1.6"
                 },
         "autoload": {
-        "psr-4": { "Gungnir\\Log\\": "src/" },
+        "psr-4": { "Gungnir\\Core\\": "src/" },
         "exclude-from-classmap": [
             "/tests/"
         ]
