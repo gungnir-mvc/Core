@@ -19,7 +19,7 @@ class Config
     /**
      * Constructor
      *
-     * @param Array|String $data Either string which is a path or array of data that is the config
+     * @param array|String $data Either string which is a path or array of data that is the config
      */
     public function __construct($data = null)
     {

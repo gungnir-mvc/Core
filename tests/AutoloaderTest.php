@@ -14,6 +14,7 @@ class AutoloaderTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
         $root        = vfsStream::setup('project');
         $application = vfsStream::newDirectory('application');
+        $cApplication = vfsStream::newDirectory('CustomApplicationFolder');
         $vendor = vfsStream::newDirectory('vendor');
 
         $classes     = vfsStream::newDirectory('classes');
@@ -30,11 +31,13 @@ class AutoloaderTest extends \PHPUnit_Framework_TestCase
 
         $classes->addChild($gungnir);
         $application->addChild($classes);
+        $cApplication->addChild($classes);
 
         $classes->addChild($otherNamespace);
         $vendor->addChild($classes);
 
         $root->addChild($application);
+        $root->addChild($cApplication);
         $root->addChild($vendor);
 
         $content = file_get_contents($otherNamespace->url() . '/Config.php');
@@ -51,24 +54,12 @@ class AutoloaderTest extends \PHPUnit_Framework_TestCase
         $autoloader->classLoader('\Gungnir\Core\Config');
     }
 
-    public function testItCanSetCustomApplicationFolder()
-    {
-        $root = $this->root->url();
-        $autoloader = new Autoloader($root);
-        $autoloader->setApplicationFolder('CustomApplicationFolder');
-    }
-
     public function testPsr4PrefixesCanBeAddedAndLoaded()
     {
         $autoloader = new Autoloader($this->root->url());
         $autoloader->psr4Prefix('Gungnir\OtherNamespace', $this->root->url() . '/vendor/classes/OtherNamespace');
         $this->assertNull($autoloader->classLoader('\Gungnir\OtherNamespace\Config'));
         $this->assertFalse($autoloader->classLoader('\Gungnir\OtherNamespace\OtherClass'));
-    }
-
-    public function testPsr0PrefixesCanBeAddedAndLoaded()
-    {
-        $autoloader = new Autoloader($this->root->url());
     }
 
     public function testItCanReturnRegisteredPrefixes()

@@ -25,7 +25,10 @@ class Container
      */
     public static function instance(Container $instance = null)
     {
-        return ($instance) ? self::setInstance($instance) : self::getInstance();
+        if ($instance) {
+            self::setInstance($instance);
+        }
+        return self::getInstance();
     }
 
     /**

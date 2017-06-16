@@ -85,7 +85,7 @@ class Kernel
     /**
      * Set application folder
      *
-     * @return Self
+     * @return Kernel
      */
     public function setApplicationFolder(String $applicationFolder)
     {

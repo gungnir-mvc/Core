@@ -43,7 +43,7 @@ class Autoloader
      * 
      * @return null|bool
      */
-    public function classLoader(String $class) 
+    public function classLoader(String $class)
     {
 
         $path = $this->getApplicationPath($class);
