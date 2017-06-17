@@ -64,9 +64,9 @@ class Application implements ApplicationInterface
     /**
      * @param ContainerInterface $container
      *
-     * @return Application
+     * @return ApplicationInterface
      */
-    public function setContainer(ContainerInterface $container): Application
+    public function setContainer(ContainerInterface $container): ApplicationInterface
     {
         $this->container = $container;
         return $this;
@@ -75,7 +75,7 @@ class Application implements ApplicationInterface
     /**
      * @return EventDispatcher
      */
-    public function getEventDispatcher()
+    public function getEventDispatcher(): EventDispatcher
     {
         if (empty($this->eventDispatcher)) {
             $this->eventDispatcher = new EventDispatcher();
@@ -87,9 +87,9 @@ class Application implements ApplicationInterface
     /**
      * @param EventDispatcher $eventDispatcher
      *
-     * @return Application
+     * @return ApplicationInterface
      */
-    public function setEventDispatcher(EventDispatcher $eventDispatcher)
+    public function setEventDispatcher(EventDispatcher $eventDispatcher): ApplicationInterface
     {
         $this->eventDispatcher = $eventDispatcher;
         return $this;
@@ -127,6 +127,14 @@ class Application implements ApplicationInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getRootPath(): String
+    {
+        return $this->getRoot();
+    }
+
+    /**
      * Get application folder
      *
      * @return String The application folder
@@ -139,9 +147,9 @@ class Application implements ApplicationInterface
     /**
      * Set application folder
      *
-     * @return Application
+     * @return ApplicationInterface
      */
-    public function setApplicationFolder(String $applicationFolder)
+    public function setApplicationFolder(String $applicationFolder): ApplicationInterface
     {
         $this->applicationFolder = $applicationFolder;
         return $this;
