@@ -2,6 +2,7 @@
 namespace Gungnir\Core;
 
 use Gungnir\Event\EventDispatcher;
+use Gungnir\Event\GenericEventObject;
 
 /**
  * @package gungnir-mvc\core
@@ -19,6 +20,9 @@ class Application implements ApplicationInterface
 
     /** @var EventDispatcher */
     private $eventDispatcher = null;
+
+    /** @var ContainerInterface */
+    private $container = null;
 
     /** @var Int */
     private $environment = null;
@@ -47,12 +51,35 @@ class Application implements ApplicationInterface
     }
 
     /**
+     * @return ContainerInterface
+     */
+    public function getContainer(): ContainerInterface
+    {
+        if (empty($this->container)) {
+            $this->container = new Container();
+        }
+        return $this->container;
+    }
+
+    /**
+     * @param ContainerInterface $container
+     *
+     * @return Application
+     */
+    public function setContainer(ContainerInterface $container): Application
+    {
+        $this->container = $container;
+        return $this;
+    }
+
+    /**
      * @return EventDispatcher
      */
     public function getEventDispatcher()
     {
         if (empty($this->eventDispatcher)) {
             $this->eventDispatcher = new EventDispatcher();
+            $this->loadApplicationEventListeners();
         }
         return $this->eventDispatcher;
     }
@@ -147,6 +174,25 @@ class Application implements ApplicationInterface
                 $content = ob_get_clean();
             }
         return $content;
+    }
+
+    /**
+     * Loads event listeners for application
+     *
+     * @return void
+     */
+    private function loadApplicationEventListeners()
+    {
+        $appRoot        = $this->getApplicationPath();
+        $file           = $appRoot . 'config/EventListeners.php';
+        $eventListeners = file_exists($file) ? require $file : [];
+
+        if (empty($eventListeners) !== true && is_array($eventListeners)) {
+            $this->getEventDispatcher()->registerListeners($eventListeners);
+        }
+
+        $eventName = 'gungnir.framework.loadapplicationeventlisteners.done';
+        $this->getEventDispatcher()->emit($eventName, new GenericEventObject($this));
     }
 
 }
