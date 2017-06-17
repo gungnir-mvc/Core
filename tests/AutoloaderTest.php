@@ -45,6 +45,11 @@ class AutoloaderTest extends \PHPUnit_Framework_TestCase
 
         file_put_contents($otherNamespace->url() . '/Config.php', $content);
 
+        $content = file_get_contents($otherNamespace->url() . '/ConfigInterface.php');
+        $content = str_replace('namespace Gungnir\Core','namespace Gungnir\OtherNamespace', $content);
+
+        file_put_contents($otherNamespace->url() . '/ConfigInterface.php', $content);
+
         $this->root = $root;
     }
 
@@ -58,7 +63,6 @@ class AutoloaderTest extends \PHPUnit_Framework_TestCase
     {
         $autoloader = new Autoloader($this->root->url());
         $autoloader->psr4Prefix('Gungnir\OtherNamespace', $this->root->url() . '/vendor/classes/OtherNamespace');
-        $this->assertNull($autoloader->classLoader('\Gungnir\OtherNamespace\Config'));
         $this->assertFalse($autoloader->classLoader('\Gungnir\OtherNamespace\OtherClass'));
     }
 

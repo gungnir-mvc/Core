@@ -1,7 +1,6 @@
 <?php
 namespace Gungnir\Core\Tests;
 
-use org\bovigo\vfs\vfsStream;
 use Gungnir\Core\Container;
 
 class ContainerTest extends \PHPUnit_Framework_TestCase
@@ -39,13 +38,5 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         $container = new Container;
         $this->assertNull($container->get('foo'));
-    }
-
-    public function testThatGlobalContainerCanBeRegistered()
-    {
-        $container = new Container;
-        Container::instance($container);
-
-        $this->assertEquals($container, Container::instance());
     }
 }

@@ -1,19 +1,24 @@
 <?php
 namespace Gungnir\Core;
 
+use Gungnir\Event\EventDispatcher;
+
 /**
  * @package gungnir-mvc\core
  * @author Conny Karlsson <connykarlsson9@gmail.com>
  */
-class Kernel
+class Application implements ApplicationInterface
 {
-    const VERSION = '0.1.0';
+    const KERNEL_VERSION = '1.0.0';
 
     const CONST_NAME_ROOT_PATH = 'ROOT';
 
     const ENVIRONMENT_DEVELOPMENT = 0;
     const ENVIRONMENT_STAGE       = 1;
     const ENVIRONMENT_PRODUCTION  = 2;
+
+    /** @var EventDispatcher */
+    private $eventDispatcher = null;
 
     /** @var Int */
     private $environment = null;
@@ -42,13 +47,35 @@ class Kernel
     }
 
     /**
+     * @return EventDispatcher
+     */
+    public function getEventDispatcher()
+    {
+        if (empty($this->eventDispatcher)) {
+            $this->eventDispatcher = new EventDispatcher();
+        }
+        return $this->eventDispatcher;
+    }
+
+    /**
+     * @param EventDispatcher $eventDispatcher
+     *
+     * @return Application
+     */
+    public function setEventDispatcher(EventDispatcher $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+        return $this;
+    }
+
+    /**
      * Get version of current Kernel
      *
      * @return String
      */
     public function version() : String
     {
-        return self::VERSION;
+        return self::KERNEL_VERSION;
     }
 
     /**
@@ -85,7 +112,7 @@ class Kernel
     /**
      * Set application folder
      *
-     * @return Kernel
+     * @return Application
      */
     public function setApplicationFolder(String $applicationFolder)
     {

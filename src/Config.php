@@ -5,7 +5,7 @@ namespace Gungnir\Core;
  * @package gungnir-mvc\core
  * @author Conny Karlsson <connykarlsson9@gmail.com>
  */
-class Config
+class Config implements ConfigInterface
 {
     /** @var String $file The file path configuration was loaded from */
     private $file = null;
@@ -68,7 +68,7 @@ class Config
     /**
      * Getter/Setter method for all config
      *
-     * @return Array configuration container
+     * @return array configuration container
      */
     public function data()
     {
@@ -90,7 +90,7 @@ class Config
      * Any sub-arrays will be converted to new configuration
      * objects.
      *
-     * @param  Array  $data Data to be loaded into configuration object
+     * @param  array  $data Data to be loaded into configuration object
      * @return void
      */
     public function load(Array $data)
@@ -112,7 +112,7 @@ class Config
      *
      * @param String $path The given path
      *
-     * @return Self
+     * @return Config
      */
     public function addPath(String $path)
     {

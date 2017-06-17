@@ -2,20 +2,20 @@
 namespace Gungnir\Core\Tests;
 
 use org\bovigo\vfs\vfsStream;
-use Gungnir\Core\Kernel;
+use Gungnir\Core\Application;
 
-class KernelTest extends \PHPUnit_Framework_TestCase
+class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
     public function testItCanGetVersion()
     {
-        $kernel = new Kernel;
+        $kernel = new Application;
         $this->assertNotEmpty($kernel->version());
     }
 
     public function testItCanOpenApplicationFiles()
     {
         $root = vfsStream::setup();
-        $kernel = new Kernel($root->url() . '/');
+        $kernel = new Application($root->url() . '/');
         $root->addChild(vfsStream::newDirectory('application'));
         file_put_contents($kernel->getApplicationPath() . 'foo.tmp', 'bar');
 
@@ -25,7 +25,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
 
     public function testItCanSetCustomApplicationFolder()
     {
-        $kernel = new Kernel;
+        $kernel = new Application;
         $this->assertEquals('application/', $kernel->getApplicationFolder());
 
         $kernel->setApplicationFolder('custom_applicationfolder/');
@@ -36,13 +36,13 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     public function testItUsesROOTConstantIfNoRootHaveBeenSet()
     {
         define('ROOT', 'somePath');
-        $kernel = new Kernel;
+        $kernel = new Application;
         $this->assertEquals('somePath', $kernel->getRoot());
     }
 
     public function testItGetsDefaultEnvironmentSet()
     {
-        $kernel = new Kernel;
-        $this->assertEquals(Kernel::ENVIRONMENT_DEVELOPMENT, $kernel->getEnvironment());
+        $kernel = new Application;
+        $this->assertEquals(Application::ENVIRONMENT_DEVELOPMENT, $kernel->getEnvironment());
     }
 }
