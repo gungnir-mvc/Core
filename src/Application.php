@@ -79,7 +79,6 @@ class Application implements ApplicationInterface
     {
         if (empty($this->eventDispatcher)) {
             $this->eventDispatcher = new EventDispatcher();
-            $this->loadApplicationEventListeners();
         }
         return $this->eventDispatcher;
     }
@@ -165,25 +164,6 @@ class Application implements ApplicationInterface
     public function getApplicationPath() : String
     {
         return $this->root . $this->getApplicationFolder();
-    }
-
-    /**
-     * Loads event listeners for application
-     *
-     * @return void
-     */
-    private function loadApplicationEventListeners()
-    {
-        $appRoot        = $this->getApplicationPath();
-        $file           = $appRoot . 'config/EventListeners.php';
-        $eventListeners = file_exists($file) ? require $file : [];
-
-        if (empty($eventListeners) !== true && is_array($eventListeners)) {
-            $this->getEventDispatcher()->registerListeners($eventListeners);
-        }
-
-        $eventName = 'gungnir.framework.loadapplicationeventlisteners.done';
-        $this->getEventDispatcher()->emit($eventName, new GenericEventObject($this));
     }
 
 }
