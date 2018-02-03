@@ -63,4 +63,12 @@ interface FileInterface
      * @return bool
      */
     public function move(string $newPath): bool;
+
+    /**
+     * Returns the full path to file
+     *
+     * @return string
+     */
+    public function getPath(): string;
+
 }

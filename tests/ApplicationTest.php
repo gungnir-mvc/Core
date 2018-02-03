@@ -12,16 +12,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEmpty($kernel->version());
     }
 
-    public function testItCanOpenApplicationFiles()
-    {
-        $root = vfsStream::setup();
-        $kernel = new Application($root->url() . '/');
-        $root->addChild(vfsStream::newDirectory('application'));
-        file_put_contents($kernel->getApplicationPath() . 'foo.tmp', 'bar');
-
-        $content = $kernel->loadFile($kernel->getApplicationPath() . 'foo.tmp');
-        $this->assertSame('bar', $content);
-    }
 
     public function testItCanSetCustomApplicationFolder()
     {

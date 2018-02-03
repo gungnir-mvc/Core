@@ -147,6 +147,8 @@ class Application implements ApplicationInterface
     /**
      * Set application folder
      *
+     * @param String $applicationFolder
+     *
      * @return ApplicationInterface
      */
     public function setApplicationFolder(String $applicationFolder): ApplicationInterface
@@ -163,25 +165,6 @@ class Application implements ApplicationInterface
     public function getApplicationPath() : String
     {
         return $this->root . $this->getApplicationFolder();
-    }
-
-
-    /**
-     * Loads a given file
-     *
-     * @param String $path The absolute path to desired file
-     *
-     * @return Mixed Content of file or null if file does not exist
-     */
-    public function loadFile(String $path)
-    {
-        $content = null;
-            if (file_exists($path)) {
-                ob_start();
-                require $path;
-                $content = ob_get_clean();
-            }
-        return $content;
     }
 
     /**
