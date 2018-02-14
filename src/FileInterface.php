@@ -5,7 +5,7 @@ namespace Gungnir\Core;
  * Interface FileInterface
  * @package Gungnir\Core
  */
-interface FileInterface
+interface FileInterface extends FSResource
 {
     /**
      * Opens file to enable reading and
@@ -40,12 +40,6 @@ interface FileInterface
      */
     public function write(string $content): bool;
 
-    /**
-     * Removes the file from the system
-     *
-     * @return bool
-     */
-    public function delete(): bool;
 
     /**
      * Clears content of file, resulting in an
@@ -54,21 +48,5 @@ interface FileInterface
      * @return bool
      */
     public function clear(): bool;
-
-    /**
-     * Moves file to new passed path
-     *
-     * @param string $newPath
-     *
-     * @return bool
-     */
-    public function move(string $newPath): bool;
-
-    /**
-     * Returns the full path to file
-     *
-     * @return string
-     */
-    public function getPath(): string;
 
 }
