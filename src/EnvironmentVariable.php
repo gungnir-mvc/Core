@@ -23,7 +23,9 @@ class EnvironmentVariable
      */
     public function __toString()
     {
-        $this->load();
+        if (true === empty($this->value)) {
+            $this->load();
+        }
         return $this->getValue();
     }
 
@@ -74,6 +76,8 @@ class EnvironmentVariable
     /**
      * Loads data from environment by set name
      * 
+     * @deprecated See Environment class
+     * 
      * @return void
      */
     public function load()
@@ -85,6 +89,8 @@ class EnvironmentVariable
 
     /**
      * Stores set value to set name in the environment
+     * 
+     * @deprecated See Environment class
      * 
      * @return void
      */

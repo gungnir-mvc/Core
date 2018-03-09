@@ -24,7 +24,7 @@ class File implements FileInterface
      */
     public function __construct(string $path)
     {
-        $this->setPath($path);
+        $this->path = $path;
     }
 
     /**
@@ -33,16 +33,6 @@ class File implements FileInterface
     public function getPath(): string
     {
         return $this->path;
-    }
-
-    /**
-     * @param string $path
-     * @return File
-     */
-    public function setPath(string $path): FileInterface
-    {
-        $this->path = $path;
-        return $this;
     }
 
     /**
@@ -143,7 +133,7 @@ class File implements FileInterface
         rename($previousPath, $newPath);
 
         if (file_exists($newPath)) {
-            $this->setPath($newPath);
+            $this->path = $newPath;
             $this->open();
             return true;
         }
@@ -151,4 +141,19 @@ class File implements FileInterface
         return false;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function isDirectory(): bool
+    {
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isFile(): bool
+    {
+        return true;
+    }
 }

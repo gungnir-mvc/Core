@@ -8,6 +8,16 @@ class FileTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
+     * @test
+     */
+    public function TestThatItKnowsItsType()
+    {
+        $file = new File("does_not_matter");
+        $this->assertFalse($file->isDirectory());
+        $this->assertTrue($file->isFile());
+    }
+
+    /**
      *
      */
     public function testItCanOpenAnExistingFile()
