@@ -10,33 +10,27 @@ use Gungnir\Event\EventDispatcher;
 class Application implements ApplicationInterface
 {
 
-    const CONST_NAME_ROOT_PATH = 'ROOT';
-
     /** @var EventDispatcher */
     private $eventDispatcher = null;
 
     /** @var ContainerInterface */
     private $container = null;
 
-    /** @var String */
+    /** @var string */
     private $root = null;
 
-    /** @var String */
+    /** @var string */
     private $applicationFolder = 'application/';
 
     /**
      * Constructor
      *
-     * @param String $root        Absolute path to root folder of project
-     * @param Int    $environment Which environment is this running
+     * @param string $root        Absolute path to root folder of project
+     * @param int    $environment Which environment is this running
      */
-    public function __construct(String $root = null)
+    public function __construct(string $root)
     {
         $this->root = (string) $root;
-
-        if (empty($this->root) && defined(self::CONST_NAME_ROOT_PATH)) {
-            $this->root = ROOT;
-        }
     }
 
     /**
@@ -86,9 +80,9 @@ class Application implements ApplicationInterface
     /**
      * Get the registered absolute root path
      *
-     * @return String
+     * @return string
      */
-    public function getRoot() : String
+    public function getRoot() : string
     {
         return $this->root;
     }
@@ -96,7 +90,7 @@ class Application implements ApplicationInterface
     /**
      * {@inheritdoc}
      */
-    public function getRootPath(): String
+    public function getRootPath(): string
     {
         return $this->getRoot();
     }
@@ -104,9 +98,11 @@ class Application implements ApplicationInterface
     /**
      * Get application folder
      *
-     * @return String The application folder
+     * @deprecated
+     * 
+     * @return string The application folder
      */
-    public function getApplicationFolder() : String
+    public function getApplicationFolder() : string
     {
         return $this->applicationFolder;
     }
@@ -114,11 +110,13 @@ class Application implements ApplicationInterface
     /**
      * Set application folder
      *
-     * @param String $applicationFolder
+     * @param string $applicationFolder
+     * 
+     * @deprecated
      *
      * @return ApplicationInterface
      */
-    public function setApplicationFolder(String $applicationFolder): ApplicationInterface
+    public function setApplicationFolder(string $applicationFolder): ApplicationInterface
     {
         $this->applicationFolder = $applicationFolder;
         return $this;
@@ -127,9 +125,11 @@ class Application implements ApplicationInterface
     /**
      * Get the absolute path to the application folder
      *
-     * @return String
+     * @deprecated
+     * 
+     * @return string
      */
-    public function getApplicationPath() : String
+    public function getApplicationPath() : string
     {
         return $this->root . $this->getApplicationFolder();
     }

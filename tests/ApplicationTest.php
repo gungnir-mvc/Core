@@ -9,7 +9,7 @@ class ApplicationTest extends TestCase
 
     public function testItCanSetCustomApplicationFolder()
     {
-        $kernel = new Application;
+        $kernel = new Application('');
         $this->assertEquals('application/', $kernel->getApplicationFolder());
 
         $kernel->setApplicationFolder('custom_applicationfolder/');
@@ -17,19 +17,12 @@ class ApplicationTest extends TestCase
         $this->assertEquals('custom_applicationfolder/', $kernel->getApplicationFolder());
     }
 
-    public function testItUsesROOTConstantIfNoRootHaveBeenSet()
-    {
-        define('ROOT', 'somePath');
-        $kernel = new Application;
-        $this->assertEquals('somePath', $kernel->getRoot());
-    }
-
     /**
      * @test
      */
     public function testThatItCanRunMakeAndPassesItself()
     {
-        $app = new Application();
+        $app = new Application('');
         $app->getContainer()->register('testClosure', function($injectedApp) use ($app) {
             $this->assertEquals($app, $injectedApp);
         });
