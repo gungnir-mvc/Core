@@ -3,8 +3,9 @@ namespace Gungnir\Core\Tests;
 
 use org\bovigo\vfs\vfsStream;
 use Gungnir\Core\Autoloader;
+use PHPUnit\Framework\TestCase;
 
-class AutoloaderTest extends \PHPUnit_Framework_TestCase
+class AutoloaderTest extends TestCase
 {
 
     private $root = null;
@@ -51,12 +52,6 @@ class AutoloaderTest extends \PHPUnit_Framework_TestCase
         file_put_contents($otherNamespace->url() . '/ConfigInterface.php', $content);
 
         $this->root = $root;
-    }
-
-    public function testItCanLoadApplicationClasses()
-    {
-        $autoloader = new Autoloader($this->root->url());
-        $autoloader->classLoader('\Gungnir\Core\Config');
     }
 
     public function testPsr4PrefixesCanBeAddedAndLoaded()

@@ -1,17 +1,11 @@
 <?php
 namespace Gungnir\Core\Tests;
 
-use org\bovigo\vfs\vfsStream;
 use Gungnir\Core\Application;
+use PHPUnit\Framework\TestCase;
 
-class ApplicationTest extends \PHPUnit_Framework_TestCase
+class ApplicationTest extends TestCase
 {
-    public function testItCanGetVersion()
-    {
-        $kernel = new Application;
-        $this->assertNotEmpty($kernel->version());
-    }
-
 
     public function testItCanSetCustomApplicationFolder()
     {
@@ -30,9 +24,15 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('somePath', $kernel->getRoot());
     }
 
-    public function testItGetsDefaultEnvironmentSet()
+    /**
+     * @test
+     */
+    public function testThatItCanRunMakeAndPassesItself()
     {
-        $kernel = new Application;
-        $this->assertEquals(Application::ENVIRONMENT_DEVELOPMENT, $kernel->getEnvironment());
+        $app = new Application();
+        $app->getContainer()->register('testClosure', function($injectedApp) use ($app) {
+            $this->assertEquals($app, $injectedApp);
+        });
+        $app->make('testClosure');
     }
 }

@@ -13,7 +13,7 @@ interface ContainerInterface
     /**
      * Checks if name is registered in container
      *
-     * @param  String  $name Name to check for in container
+     * @param  String  $key Name to check for in container
      *
      * @return boolean
      */
@@ -22,48 +22,59 @@ interface ContainerInterface
     /**
      * Tries to get an item from container by name
      *
-     * @param  String $name Name of item to retrieve
+     * @param  String $key Name of item to retrieve
      *
      * @return mixed
      */
     public function get(string $key);
 
     /**
-     * Removes item from container by name
-     *
-     * @param  String $name Name of item to remove
-     *
-     * @return ContainerInterface
-     */
-    public function remove(string $key): ContainerInterface;
-
-    /**
-     * Retrieves and runs closure from container
-     *
-     * @param  String $name       Name of closure;
-     * @param  array  $parameters Array with parameters to pass into closure
-     *
-     * @return mixed
-     */
-    public function make(string $closureName, array $parameters = []);
-
-    /**
      * Stores data in container under the passed name
      *
-     * @param  String $name Name to store item under
-     * @param  mixed  $item Anything that should be stored
+     * @param  String $key Name to store item under
+     * @param  mixed  $value Anything that should be stored
      *
      * @return ContainerInterface
      */
     public function store(string $key, $value): ContainerInterface;
 
     /**
-     * Stores a closure in the container under the passed name
+     * Removes item from container by name
      *
-     * @param  String  $name    Name to store closure under
+     * @param  String $key Name of item to remove
+     *
+     * @return ContainerInterface
+     */
+    public function remove(string $key): ContainerInterface;
+
+    /**
+     * Works like register but the first time the closure is called the
+     * returned value is stored and will be returned instead of having the
+     * closure run again
+     * 
+     * @param string   $key
+     * @param \Closure $singletonFunction
+     */
+    public function singleton(string $key, \Closure $singletonFunction): ContainerInterface;
+
+    /**
+     * Stores a closure in the container under the passed name.
+     *
+     * @param  String  $closureName    Name to store closure under
      * @param  Closure $closure Closure to register
      *
      * @return ContainerInterface
      */
     public function register(string $closureName, Closure $closure): ContainerInterface;
+
+    /**
+     * Retrieves and runs closure from container
+     *
+     * @param  String $closureName       Name of closure;
+     * @param  array  $parameters Array with parameters to pass into closure
+     *
+     * @return mixed
+     */
+    public function make(string $closureName, array $parameters = []);
+
 }

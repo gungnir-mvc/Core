@@ -2,8 +2,9 @@
 namespace Gungnir\Core\Tests;
 
 use Gungnir\Core\Container;
+use PHPUnit\Framework\TestCase;
 
-class ContainerTest extends \PHPUnit_Framework_TestCase
+class ContainerTest extends TestCase
 {
     public function testItCanStoreRetrieveAndDeleteData()
     {
@@ -39,4 +40,18 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $container = new Container;
         $this->assertNull($container->get('foo'));
     }
+
+    public function testThatItCanRegisterSingleton()
+    {
+        $container = new Container;
+        $container->singleton('key', function() {
+            return new \stdClass();
+        });
+
+        $instance = $container->make('key');
+        $instance->foo = "bar";
+
+        $this->assertEquals($instance, $container->make('key'));
+    }
+
 }

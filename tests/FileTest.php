@@ -3,8 +3,9 @@ namespace Gungnir\Core\Tests;
 
 use Gungnir\Core\File;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 
-class FileTest extends \PHPUnit_Framework_TestCase
+class FileTest extends TestCase
 {
 
     /**

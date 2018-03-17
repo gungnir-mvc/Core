@@ -2,7 +2,6 @@
 namespace Gungnir\Core;
 
 use Gungnir\Event\EventDispatcher;
-use Gungnir\Event\GenericEventObject;
 
 /**
  * @package gungnir-mvc\core
@@ -10,22 +9,14 @@ use Gungnir\Event\GenericEventObject;
  */
 class Application implements ApplicationInterface
 {
-    const KERNEL_VERSION = '1.0.0';
 
     const CONST_NAME_ROOT_PATH = 'ROOT';
-
-    const ENVIRONMENT_DEVELOPMENT = 0;
-    const ENVIRONMENT_STAGE       = 1;
-    const ENVIRONMENT_PRODUCTION  = 2;
 
     /** @var EventDispatcher */
     private $eventDispatcher = null;
 
     /** @var ContainerInterface */
     private $container = null;
-
-    /** @var Int */
-    private $environment = null;
 
     /** @var String */
     private $root = null;
@@ -39,10 +30,8 @@ class Application implements ApplicationInterface
      * @param String $root        Absolute path to root folder of project
      * @param Int    $environment Which environment is this running
      */
-    public function __construct(String $root = null, Int $environment = self::ENVIRONMENT_DEVELOPMENT)
+    public function __construct(String $root = null)
     {
-        $this->environment = $environment;
-
         $this->root = (string) $root;
 
         if (empty($this->root) && defined(self::CONST_NAME_ROOT_PATH)) {
@@ -95,27 +84,6 @@ class Application implements ApplicationInterface
     }
 
     /**
-     * Get version of current Kernel
-     *
-     * @return String
-     */
-    public function version() : String
-    {
-        return self::KERNEL_VERSION;
-    }
-
-    /**
-     * Get which environment mode the kernel is running
-     * in
-     *
-     * @return Int
-     */
-    public function getEnvironment()
-    {
-        return $this->environment;
-    }
-
-    /**
      * Get the registered absolute root path
      *
      * @return String
@@ -165,5 +133,20 @@ class Application implements ApplicationInterface
     {
         return $this->root . $this->getApplicationFolder();
     }
+
+    /**
+     * Runs closure registered in container and passing itself as a first parameter
+     *
+     * @param string $name
+     * @param array $parameters
+     *
+     * @return mixed
+     */
+    public function make(string $name, array $parameters = [])
+    {
+        array_unshift($parameters, $this);
+        return $this->getContainer()->make($name, $parameters);
+    }
+    
 
 }

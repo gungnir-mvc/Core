@@ -62,4 +62,14 @@ interface ApplicationInterface
      * @return String
      */
     public function getRootPath(): String;
+
+    /**
+     * Runs closure registered in container and passing itself as a first parameter
+     *
+     * @param string $name
+     * @param array $parameters
+     *
+     * @return mixed
+     */
+    public function make(string $name, array $parameters = []);
 }

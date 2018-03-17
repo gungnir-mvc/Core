@@ -3,8 +3,9 @@ namespace Gungnir\Core\Tests;
 
 use org\bovigo\vfs\vfsStream;
 use Gungnir\Core\Config;
+use PHPUnit\Framework\TestCase;
 
-class ConfigTest extends \PHPUnit_Framework_TestCase
+class ConfigTest extends TestCase
 {
 
   public function testItCanGetAndSetData()
